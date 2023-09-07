@@ -1,0 +1,52 @@
+Bài hôm nay chungst a sẽ nói về state và events trong reactjs. chúng ta sẽ phải hiểu nó và có ví dụ.
+
+bài sẽ có 2 nội dung chính: 
++ Xử lý sự kiện
++ Sử dụng state
+
+Chúng ta đi vào phần đầu tiên.
+
+Nếu trước đây bạn chỉ viết JavaScript cơ bản thì có thể bạn đã quen với việc có một tệp JavaScript riêng, nơi bạn truy vấn một số nút DOM và đính kèm trình nghe vào chúng. ví dụ:
+```jsx
+const btn = document.querySelector("button");
+
+btn.addEventListener("click", () => {
+  alert("hi!");
+});
+```
+Trong React, chúng ta viết các trình xử lý sự kiện trực tiếp lên các phần tử trong JSX, như sau:
+```jsx
+<button type="button" onClick={() => alert("hi!")}>
+  Say hi!
+</button>
+```
+Có một vài đặc điểm cần lưu ý:
+
+1. Với JSX, các thuộc tính liên quan tới event cần phải được đổi tên theo dạng `camelCase` như đã nói ở bài trước (`onClick` thay vì `onclick`, `onSubmit` thay vì `onsubmit`, ...)
+2. Các thuộc tính liên quan tới event cần nhận vào một giá trị là một function Javascript. Vì vậy, chúng cần được sử dụng cú pháp ngoặc nhọn `{}` (`onClick={<function>}` thay vì `onclick=”function()”`)
+
+Cần lưu ý là chúng ta cần truyền giá trị vào là một function cho các sự kiện. Xét ví dụ bên dưới:
+```jsx
+const App = () => {
+	const onClickMe = () => {
+		console.log("Click me")
+		return null;
+	}
+	
+	return <button onClick={onClickMe()}>Click me</button>
+}
+```
+
+Các bạn chú ý cho mình đến giá trị mà chúng ta gán cho sự kiện `onClick` là 1 function hay là 1 giá trị ?
+Có 1 chú ý là: khi 1 function đi kèm với cặp dấu "()" có nghĩa là chúng ta đang chạy function đó, 
+vậy thì gán cho sự kiện onClick là kết quả được return của function đó sau khi được chạy trong trường hợp này là null, thay vì là 1 function mà chúng ta mong muốn.
+
+Vì vậy, ví dụ trên sẽ không chạy theo các mà chúng ta mong muốn.
+
+Để xử lý được trường hợp này chúng ta có 2 cách:
+ 1 là bỏ dấu "()" => lúc này chúng ta gán cho onClick 1 function onClickMe
+ 2 là chúng ta sẽ sử dụng anonymous function onClick={() => onClickMe()}
+
+Hãy thử xử lý sự kiện onSubmit của form và tìm cách để có thể gọi được function preventDefault() của event submit đó.
+
+ 
